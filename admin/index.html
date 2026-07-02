@@ -68,6 +68,7 @@
   <div class="head">
     <div class="logo">QUẢN TRỊ<span> · KS01</span></div>
     <div class="head-right">
+      <a class="btn btn-ghost" href="/noidung/" id="btn-content" style="display:none">📝 Nội dung & Ảnh</a>
       <span id="user-email"></span>
       <button class="btn btn-ghost" id="btn-logout" style="display:none">Đăng xuất</button>
     </div>
@@ -139,6 +140,7 @@
     $('gate').style.display='none';
     $('app').style.display='block';
     $('btn-logout').style.display='inline-flex';
+    $('btn-content').style.display='inline-flex';
     $('user-email').textContent = user && user.email ? user.email : '';
     loadLeads();
   }
@@ -146,6 +148,7 @@
     $('gate').style.display='flex';
     $('app').style.display='none';
     $('btn-logout').style.display='none';
+    $('btn-content').style.display='none';
     $('user-email').textContent='';
   }
 
