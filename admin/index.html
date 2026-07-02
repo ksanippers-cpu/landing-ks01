@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản trị khách hàng – KS01</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --bg:#0b0b0d; --bg2:#111114; --panel:#16161a;
+    --gold:#c9a24b; --gold-2:#e7c877; --gold-soft:rgba(201,162,75,.14);
+    --text:#f4f1ea; --muted:#a7a29a; --line:rgba(201,162,75,.22);
+    --green:#3ecf8e; --red:#e5484d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  a{color:var(--gold-2)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-weight:700;border:none;cursor:pointer;font-size:.95rem;text-decoration:none}
+  .btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1508}
+  .btn-ghost{background:transparent;color:var(--gold-2);border:1.5px solid var(--line)}
+  .btn-ghost:hover{background:var(--gold-soft)}
+
+  header{position:sticky;top:0;z-index:20;background:rgba(11,11,13,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .head{max-width:1200px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .logo{font-size:1.2rem;font-weight:800;letter-spacing:1px}
+  .logo span{color:var(--gold-2)}
+  .head-right{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--muted)}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:26px 22px 60px}
+
+  /* Login gate */
+  .gate{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px}
+  .gate h1{font-size:1.6rem}
+  .gate p{color:var(--muted);max-width:420px}
+
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .stat .n{font-size:1.9rem;font-weight:800;color:var(--gold-2)}
+  .stat .l{color:var(--muted);font-size:.85rem;margin-top:2px}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .search{flex:1;min-width:220px;max-width:420px;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+  .search input{flex:1;background:transparent;border:none;color:var(--text);font-size:.95rem;outline:none}
+  .tools{display:flex;gap:10px;flex-wrap:wrap}
+
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table-scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:820px}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06);white-space:nowrap}
+  th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;user-select:none}
+  th:hover{color:var(--gold-2)}
+  tbody tr:hover{background:rgba(201,162,75,.05)}
+  td.wrap-cell{white-space:normal;max-width:220px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:600;background:var(--gold-soft);color:var(--gold-2)}
+  .badge.direct{background:rgba(167,162,154,.15);color:var(--muted)}
+  .empty{padding:50px 20px;text-align:center;color:var(--muted)}
+  .loading{padding:50px;text-align:center;color:var(--muted)}
+  .err{padding:20px;background:rgba(229,72,77,.1);border:1px solid rgba(229,72,77,.3);border-radius:12px;color:#ff9a9d;margin-bottom:16px}
+  .err b{color:#fff}
+  .muted{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <div class="logo">QUẢN TRỊ<span> · KS01</span></div>
+    <div class="head-right">
+      <span id="user-email"></span>
+      <button class="btn btn-ghost" id="btn-logout" style="display:none">Đăng xuất</button>
+    </div>
+  </div>
+</header>
+
+<!-- Chưa đăng nhập -->
+<div class="wrap gate" id="gate">
+  <div class="logo" style="font-size:1.5rem">QUẢN TRỊ<span> · KS01</span></div>
+  <h1>Đăng nhập để xem danh sách khách hàng</h1>
+  <p>Trang quản trị đơn đăng ký/đặt mua kềm KS01. Vui lòng đăng nhập bằng tài khoản admin.</p>
+  <button class="btn btn-gold" id="btn-login">🔑 Đăng nhập</button>
+</div>
+
+<!-- Đã đăng nhập -->
+<div class="wrap" id="app" style="display:none">
+  <div class="stats" id="stats">
+    <div class="stat"><div class="n" id="s-total">–</div><div class="l">Tổng khách hàng</div></div>
+    <div class="stat"><div class="n" id="s-today">–</div><div class="l">Hôm nay</div></div>
+    <div class="stat"><div class="n" id="s-week">–</div><div class="l">7 ngày qua</div></div>
+    <div class="stat"><div class="n" id="s-top">–</div><div class="l">Nguồn nhiều nhất</div></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      🔍 <input id="q" placeholder="Tìm theo tên, email, SĐT, nguồn...">
+    </div>
+    <div class="tools">
+      <button class="btn btn-ghost" id="btn-refresh">↻ Làm mới</button>
+      <button class="btn btn-gold" id="btn-export">⬇ Xuất Excel (CSV)</button>
+    </div>
+  </div>
+
+  <div id="err-box"></div>
+
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th data-k="i">#</th>
+            <th data-k="ho_ten">Họ tên</th>
+            <th data-k="so_dien_thoai">Số điện thoại</th>
+            <th data-k="email">Email</th>
+            <th data-k="dia_chi">Địa chỉ</th>
+            <th data-k="so_luong">SL</th>
+            <th data-k="ghi_chu">Ghi chú</th>
+            <th data-k="nguon_traffic">Nguồn</th>
+            <th data-k="thoi_gian">Thời gian</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="9" class="loading">Đang tải dữ liệu…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:12px;font-size:.85rem">Hiển thị <span id="shown">0</span> khách hàng. Dữ liệu cập nhật trực tiếp từ form đăng ký.</p>
+</div>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  var LEADS = [];
+  var sortKey = 'created_at', sortDir = -1;
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  function showApp(user){
+    $('gate').style.display='none';
+    $('app').style.display='block';
+    $('btn-logout').style.display='inline-flex';
+    $('user-email').textContent = user && user.email ? user.email : '';
+    loadLeads();
+  }
+  function showGate(){
+    $('gate').style.display='flex';
+    $('app').style.display='none';
+    $('btn-logout').style.display='none';
+    $('user-email').textContent='';
+  }
+
+  async function loadLeads(){
+    $('tbody').innerHTML = '<tr><td colspan="9" class="loading">Đang tải dữ liệu…</td></tr>';
+    $('err-box').innerHTML = '';
+    try{
+      var user = window.netlifyIdentity.currentUser();
+      var token = user ? await user.jwt() : null;
+      var res = await fetch('/.netlify/functions/leads', {
+        headers: token ? { Authorization: 'Bearer ' + token } : {}
+      });
+      if(!res.ok){
+        var t = await res.text();
+        throw new Error('HTTP ' + res.status + ' – ' + t);
+      }
+      var data = await res.json();
+      LEADS = data.leads || [];
+      renderStats();
+      render();
+    }catch(e){
+      $('err-box').innerHTML = '<div class="err"><b>Chưa lấy được dữ liệu.</b><br>' +
+        'Nếu đây là lần đầu, cần thiết lập token API (xem hướng dẫn). Chi tiết lỗi: ' +
+        String(e.message||e) + '</div>';
+      $('tbody').innerHTML = '<tr><td colspan="9" class="empty">Không có dữ liệu để hiển thị.</td></tr>';
+    }
+  }
+
+  function renderStats(){
+    var now = new Date();
+    var startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    var weekAgo = now.getTime() - 7*24*3600*1000;
+    var today=0, week=0, srcCount={};
+    LEADS.forEach(function(l){
+      var t = l.created_at ? new Date(l.created_at).getTime() : 0;
+      if(t>=startToday) today++;
+      if(t>=weekAgo) week++;
+      var s = l.nguon_traffic || 'Không rõ';
+      srcCount[s] = (srcCount[s]||0)+1;
+    });
+    var top='–', topN=-1;
+    Object.keys(srcCount).forEach(function(k){ if(srcCount[k]>topN){topN=srcCount[k];top=k;} });
+    $('s-total').textContent = LEADS.length;
+    $('s-today').textContent = today;
+    $('s-week').textContent = week;
+    $('s-top').textContent = LEADS.length ? top : '–';
+    $('s-top').style.fontSize = '1.1rem';
+  }
+
+  function fmtDate(l){
+    if(l.thoi_gian) return l.thoi_gian;
+    if(l.created_at){ try{ return new Date(l.created_at).toLocaleString('vi-VN'); }catch(e){} }
+    return '';
+  }
+
+  function render(){
+    var q = ($('q').value||'').toLowerCase().trim();
+    var rows = LEADS.filter(function(l){
+      if(!q) return true;
+      return [l.ho_ten,l.email,l.so_dien_thoai,l.nguon_traffic,l.dia_chi].join(' ').toLowerCase().indexOf(q)>-1;
+    });
+    rows.sort(function(a,b){
+      var va=a[sortKey]||'', vb=b[sortKey]||'';
+      if(sortKey==='created_at'){ va=new Date(a.created_at||0).getTime(); vb=new Date(b.created_at||0).getTime(); }
+      if(va<vb) return -1*sortDir; if(va>vb) return 1*sortDir; return 0;
+    });
+    var tb = $('tbody');
+    if(!rows.length){ tb.innerHTML='<tr><td colspan="9" class="empty">Chưa có khách hàng nào'+(q?' khớp tìm kiếm':'')+'.</td></tr>'; $('shown').textContent=0; return; }
+    tb.innerHTML = rows.map(function(l,i){
+      var isDirect = /trực tiếp|không rõ/i.test(l.nguon_traffic||'');
+      var badge = '<span class="badge'+(isDirect?' direct':'')+'">'+(l.nguon_traffic||'Không rõ')+'</span>';
+      return '<tr>'+
+        '<td>'+(i+1)+'</td>'+
+        '<td><b>'+esc(l.ho_ten)+'</b></td>'+
+        '<td>'+esc(l.so_dien_thoai)+'</td>'+
+        '<td>'+esc(l.email)+'</td>'+
+        '<td class="wrap-cell">'+esc(l.dia_chi)+'</td>'+
+        '<td>'+esc(l.so_luong)+'</td>'+
+        '<td class="wrap-cell">'+esc(l.ghi_chu)+'</td>'+
+        '<td>'+badge+'</td>'+
+        '<td class="muted">'+esc(fmtDate(l))+'</td>'+
+      '</tr>';
+    }).join('');
+    $('shown').textContent = rows.length;
+  }
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  function exportCSV(){
+    var cols=['ho_ten','so_dien_thoai','email','dia_chi','so_luong','ghi_chu','nguon_traffic','thoi_gian'];
+    var head=['Ho ten','So dien thoai','Email','Dia chi','So luong','Ghi chu','Nguon','Thoi gian'];
+    var lines=[head.join(',')];
+    LEADS.forEach(function(l){
+      var row=cols.map(function(c){ var v=(c==='thoi_gian')?fmtDate(l):(l[c]||''); return '"'+String(v).replace(/"/g,'""')+'"'; });
+      lines.push(row.join(','));
+    });
+    var blob=new Blob(['﻿'+lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='khach-hang-ks01-'+new Date().toISOString().slice(0,10)+'.csv';
+    a.click();
+  }
+
+  // Events
+  $('q').addEventListener('input', render);
+  $('btn-refresh').addEventListener('click', loadLeads);
+  $('btn-export').addEventListener('click', exportCSV);
+  document.querySelectorAll('th[data-k]').forEach(function(th){
+    if(th.dataset.k==='i') return;
+    th.addEventListener('click', function(){
+      var k=th.dataset.k;
+      if(sortKey===k) sortDir*=-1; else { sortKey=k; sortDir=1; }
+      render();
+    });
+  });
+  $('btn-login').addEventListener('click', function(){ window.netlifyIdentity.open(); });
+  $('btn-logout').addEventListener('click', function(){ window.netlifyIdentity.logout(); });
+
+  // Identity lifecycle
+  window.netlifyIdentity.on('init', function(user){ if(user) showApp(user); else showGate(); });
+  window.netlifyIdentity.on('login', function(user){ window.netlifyIdentity.close(); showApp(user); });
+  window.netlifyIdentity.on('logout', function(){ showGate(); });
+  window.netlifyIdentity.init();
+</script>
+</body>
+</html>
