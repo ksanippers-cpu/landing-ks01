@@ -1,0 +1,46 @@
+{
+  "seoTitle": "Kềm Cắt Da Inox KS01 – Sắc Bén, Bền Bỉ, Chuẩn Salon",
+  "brand": "KỀM<span>KS01</span>",
+  "hero": {
+    "badge": "Thép không gỉ cao cấp",
+    "title": "Kềm Cắt Da Inox KS01",
+    "subtitle": "Sắc ngọt – Êm tay – Bền vĩnh cửu",
+    "lead": "Lưỡi kềm mài tay tinh xảo, cắt da mỏng dứt khoát không rít, không xước. Chuẩn dụng cụ cho thợ nail chuyên nghiệp và người dùng khó tính tại nhà.",
+    "image": ""
+  },
+  "price": {
+    "name": "KỀM CẮT DA INOX KS01",
+    "amount": "Liên hệ",
+    "note": "Đã bao gồm hộp bảo vệ · Giao hàng toàn quốc"
+  },
+  "contact": {
+    "phone": "0900000000",
+    "zalo": "0900000000",
+    "address": "",
+    "copyright": "© 2026 Shop KS01. Đã đăng ký bản quyền."
+  },
+  "featuresTitle": "Từng chi tiết đều được chăm chút",
+  "featuresSub": "Thiết kế cho độ chính xác và cảm giác cầm tay hoàn hảo trong từng đường cắt.",
+  "features": [
+    { "icon": "🔪", "image": "", "title": "Lưỡi mài tay sắc bén", "desc": "Hai lưỡi khít tuyệt đối, cắt da mỏng ngọt lịm ngay lần đầu, không cần bấm đi bấm lại gây tổn thương da." },
+    { "icon": "⚙️", "image": "", "title": "Inox không gỉ 100%", "desc": "Thép không gỉ cao cấp, chống ăn mòn, dễ vệ sinh – khử trùng, giữ độ bén bền lâu theo thời gian." },
+    { "icon": "🤲", "image": "", "title": "Cầm êm, bật nhẹ", "desc": "Lò xo đàn hồi tốt, tay cầm cân đối giảm mỏi khi làm liên tục nhiều giờ tại salon." },
+    { "icon": "🎯", "image": "", "title": "Đầu kềm chuẩn xác", "desc": "Mũi kềm gọn, luồn sát chân da – khóe móng, xử lý gọn những vùng khó nhất." },
+    { "icon": "💎", "image": "", "title": "Hoàn thiện tinh xảo", "desc": "Bề mặt đánh bóng sáng đẹp, không bavia, cầm chắc chắn và sang trọng." },
+    { "icon": "♻️", "image": "", "title": "Dùng bền nhiều năm", "desc": "Chất liệu và khớp bản lề chắc chắn, có thể mài lại – khoản đầu tư đáng giá cho nghề." }
+  ],
+  "specs": [
+    { "label": "Mã sản phẩm", "value": "KS01" },
+    { "label": "Loại", "value": "Kềm cắt da (làm nail)" },
+    { "label": "Chất liệu", "value": "Thép không gỉ (Inox)" },
+    { "label": "Kiểu lưỡi", "value": "Mài tay, cắt sát" },
+    { "label": "Độ mở lưỡi", "value": "" },
+    { "label": "Xuất xứ", "value": "" },
+    { "label": "Bảo hành", "value": "" }
+  ],
+  "faqs": [
+    { "q": "Kềm KS01 có bị gỉ sét không?", "a": "Không. KS01 làm từ thép không gỉ (inox) cao cấp, chống ăn mòn tốt. Bạn chỉ cần lau khô sau khi vệ sinh là dùng bền lâu." },
+    { "q": "Kềm có sắc ngay khi mới mua không?", "a": "Có. Lưỡi được mài tay và căn khít trước khi xuất xưởng, cắt da ngọt ngay từ lần đầu sử dụng." },
+    { "q": "Có ship COD (nhận hàng trả tiền) không?", "a": "Có. Chúng tôi giao hàng toàn quốc, bạn được kiểm tra hàng trước khi thanh toán." }
+  ]
+}
