@@ -1,0 +1,71 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: vi
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "noi_dung"
+    label: "Nội dung trang"
+    files:
+      - name: "trang_chu"
+        label: "Toàn bộ nội dung landing page"
+        file: "content/site.json"
+        fields:
+          - { label: "Tiêu đề SEO (trên tab trình duyệt)", name: "seoTitle", widget: "string", required: false }
+          - { label: "Tên thương hiệu (logo)", name: "brand", widget: "string" }
+
+          - label: "Phần đầu trang (Hero)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Nhãn nhỏ", name: "badge", widget: "string", required: false }
+              - { label: "Tiêu đề lớn", name: "title", widget: "string" }
+              - { label: "Tiêu đề phụ (màu vàng)", name: "subtitle", widget: "string", required: false }
+              - { label: "Mô tả", name: "lead", widget: "text" }
+              - { label: "Ảnh sản phẩm chính", name: "image", widget: "image", required: false }
+
+          - label: "Giá & tên sản phẩm"
+            name: "price"
+            widget: "object"
+            fields:
+              - { label: "Tên sản phẩm", name: "name", widget: "string" }
+              - { label: "Giá bán (vd: 250.000đ hoặc Liên hệ)", name: "amount", widget: "string" }
+              - { label: "Ghi chú dưới giá", name: "note", widget: "string", required: false }
+
+          - label: "Thông tin liên hệ"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "Số điện thoại", name: "phone", widget: "string" }
+              - { label: "Số Zalo", name: "zalo", widget: "string", required: false }
+              - { label: "Địa chỉ / Fanpage", name: "address", widget: "string", required: false }
+              - { label: "Dòng bản quyền (footer)", name: "copyright", widget: "string", required: false }
+
+          - { label: "Tiêu đề mục tính năng", name: "featuresTitle", widget: "string", required: false }
+          - { label: "Mô tả mục tính năng", name: "featuresSub", widget: "string", required: false }
+
+          - label: "Tính năng nổi bật"
+            name: "features"
+            widget: "list"
+            fields:
+              - { label: "Icon (emoji, để trống nếu dùng ảnh)", name: "icon", widget: "string", required: false }
+              - { label: "Ảnh icon (nếu muốn dùng ảnh thay emoji)", name: "image", widget: "image", required: false }
+              - { label: "Tiêu đề", name: "title", widget: "string" }
+              - { label: "Mô tả", name: "desc", widget: "text" }
+
+          - label: "Thông số kỹ thuật"
+            name: "specs"
+            widget: "list"
+            fields:
+              - { label: "Tên thông số", name: "label", widget: "string" }
+              - { label: "Giá trị", name: "value", widget: "string", required: false }
+
+          - label: "Câu hỏi thường gặp (FAQ)"
+            name: "faqs"
+            widget: "list"
+            fields:
+              - { label: "Câu hỏi", name: "q", widget: "string" }
+              - { label: "Trả lời", name: "a", widget: "text" }
