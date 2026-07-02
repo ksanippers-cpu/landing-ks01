@@ -1,0 +1,11 @@
+# Cấu hình Netlify cho landing page + trang quản trị KS01
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301
